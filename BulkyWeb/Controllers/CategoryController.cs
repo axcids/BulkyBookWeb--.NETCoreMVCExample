@@ -19,12 +19,22 @@ namespace BulkyWeb.Controllers {
         [HttpPost]
         public IActionResult Create(Category obj) {
 
-            if (obj.Name == obj.DisplayOrder.ToString()) {
-                ModelState.AddModelError("name", "The DisplayOrder value cannot exactly match the Name");
-            }else if(obj.DisplayOrder == null) {
-                ModelState.AddModelError("DisplayOrder", "Yaaaaaay");
-
+            
+            
+            
+            
+            if (obj.Name != null && obj.Name.ToLower() == "test") {
+                ModelState.AddModelError("", "Test is invalid name");
             }
+
+            //if (obj.Name == obj.DisplayOrder.ToString()) {
+            //    ModelState.AddModelError("name", "The DisplayOrder value cannot exactly match the Name");
+            //} 
+            
+            
+            //if (obj.DisplayOrder == null) {
+            //    ModelState.AddModelError("DisplayOrder", "You have to enter a value in Display Order field");
+            //}
 
             if (ModelState.IsValid) {
                 _db.Categories.Add(obj);
