@@ -20,9 +20,6 @@ namespace BulkyWeb.Controllers {
         public IActionResult Create(Category obj) {
 
             
-            
-            
-            
             if (obj.Name != null && obj.Name.ToLower() == "test") {
                 ModelState.AddModelError("", "Test is invalid name");
             }
@@ -37,6 +34,7 @@ namespace BulkyWeb.Controllers {
             //}
 
             if (ModelState.IsValid) {
+                TempData["Success"] = "Category created successfully!";
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,6 +86,7 @@ namespace BulkyWeb.Controllers {
             }
             _db.Categories.Remove(obj);
             _db.SaveChanges();
+            TempData["Success"] = "Category deleted successfully!";
             return RedirectToAction("Index");
 
         }
