@@ -1,0 +1,35 @@
+﻿@using BulkyBook.Models
+
+@model Product
+
+<form class="pt-1" action="" method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="textprimary">Delete Product</h2>
+            <hr />
+        </div>
+        <div class="row mb-3">
+            <label asp-for="Title" class="p-0"></label>
+            <input asp-for="Title" type="text" disabled class="form-control" />
+        </div>
+        <div class="row mb-3">
+            <label asp-for="Author" class="p-0"></label>
+            <input asp-for="Author" disabled class="form-control" />
+        </div>
+        <div class="row mb-3">
+            <label asp-for="ISBN" class="p-0"></label>
+            <input asp-for="ISBN" disabled class="form-control" />
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-danger form-control">Delete</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+
+</form>

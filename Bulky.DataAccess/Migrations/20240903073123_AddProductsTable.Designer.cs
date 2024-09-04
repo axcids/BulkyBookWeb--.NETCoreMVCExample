@@ -4,6 +4,7 @@ using BulkyBook.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBook.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240903073123_AddProductsTable")]
+    partial class AddProductsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,18 +79,11 @@ namespace BulkyBook.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -109,8 +105,6 @@ namespace BulkyBook.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -118,10 +112,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Billy Spark",
-                            CategoryId = 1,
                             Description = "Praesent vita sodales libro some text here",
                             ISBN = "SWD99999001",
-                            ImageUrl = "",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
@@ -132,10 +124,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Liu Cixin",
-                            CategoryId = 2,
                             Description = "A gripping sci-fi novel that explores the complexity of space and time.",
                             ISBN = "SWD99999002",
-                            ImageUrl = "",
                             ListPrice = 120.0,
                             Price = 110.0,
                             Price100 = 100.0,
@@ -146,10 +136,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "John Doe",
-                            CategoryId = 3,
                             Description = "A thrilling adventure set in the depths of the ocean.",
                             ISBN = "SWD99999003",
-                            ImageUrl = "",
                             ListPrice = 95.0,
                             Price = 85.0,
                             Price100 = 75.0,
@@ -160,10 +148,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 4,
                             Author = "Wu Cheng'en",
-                            CategoryId = 2,
                             Description = "An ancient Chinese tale of bravery, wisdom, and perseverance.",
                             ISBN = "SWD99999004",
-                            ImageUrl = "",
                             ListPrice = 150.0,
                             Price = 140.0,
                             Price100 = 130.0,
@@ -174,10 +160,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 5,
                             Author = "Jane Smith",
-                            CategoryId = 1,
                             Description = "A deep dive into the science of the human mind and potential.",
                             ISBN = "SWD99999005",
-                            ImageUrl = "",
                             ListPrice = 85.0,
                             Price = 80.0,
                             Price100 = 70.0,
@@ -188,10 +172,8 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 6,
                             Author = "Carl Sagan",
-                            CategoryId = 1,
                             Description = "An exploration of the universe and its profound mysteries.",
                             ISBN = "SWD99999006",
-                            ImageUrl = "",
                             ListPrice = 110.0,
                             Price = 100.0,
                             Price100 = 90.0,
@@ -202,27 +184,14 @@ namespace BulkyBook.DataAccess.Migrations
                         {
                             Id = 7,
                             Author = "Sun Tzu",
-                            CategoryId = 2,
                             Description = "An ancient Chinese military treatise on strategy and tactics.",
                             ISBN = "SWD99999007",
-                            ImageUrl = "",
                             ListPrice = 75.0,
                             Price = 70.0,
                             Price100 = 60.0,
                             Price50 = 65.0,
                             Title = "The Art of War"
                         });
-                });
-
-            modelBuilder.Entity("BulkyBook.Models.Product", b =>
-                {
-                    b.HasOne("BulkyBook.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
