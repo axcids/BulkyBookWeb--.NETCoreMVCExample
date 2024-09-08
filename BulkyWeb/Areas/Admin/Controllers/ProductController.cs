@@ -50,21 +50,35 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
 
-
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 if (file != null) {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string prodcutPath = Path.Combine(wwwRootPath, @"images\product");
+                    //check if the user have uploaded a new image 
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl)) {
+                        //delete old image 
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.Trim('\\'));
+                        if (System.IO.File.Exists(oldImagePath)) {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
                     using (var fileStream = new FileStream(Path.Combine(prodcutPath, fileName), FileMode.Create)) {
                         file.CopyTo(fileStream);
                     }
                     productVM.Product.ImageUrl = @"\images\product\" + fileName;
                 }
 
-                TempData["Success"] = "Product created successfully!";
-                _unitOfWork.Product.Add(productVM.Product);
+                if(productVM.Product.Id == 0) {
+                    _unitOfWork.Product.Add(productVM.Product);
+                    TempData["Success"] = "Product Created Successfully!";
+                }
+                else {
+                    _unitOfWork.Product.Update(productVM.Product);
+                    TempData["Success"] = "Product Updated Successfully!";
+                }
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
             }

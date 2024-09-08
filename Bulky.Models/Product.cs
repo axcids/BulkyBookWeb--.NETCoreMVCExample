@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BulkyBook.Models {
     public class Product {
@@ -49,6 +50,8 @@ namespace BulkyBook.Models {
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+        [ValidateNever]
+        [AllowNull]
         public string ImageUrl { get; set; }
     }
 }

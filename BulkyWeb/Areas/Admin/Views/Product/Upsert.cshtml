@@ -1,7 +1,8 @@
 ﻿@model ProductVM
 
 <form class="p-4" action="" method="post" enctype="multipart/form-data">
-    <input asp-for="Product.Id" hidden/>
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageUrl" hidden />
     <div class="border p-4 m-4">
         <div class="row pb-2">
             <h2 class="textprimary">@(Model.Product.Id!=0?"Update":"Create") Product</h2>
@@ -55,6 +56,13 @@
             </select>
             <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
         </div>
+        @if(Model.Product.Id != 0){
+            <div class="row mb-3">
+                <label class="pb-1">Current Image:</label>
+                <img src="@Model.Product.ImageUrl" style="width: 25%;" alt="No Image" />
+            </div>
+
+        }
         <div class="row mb-3">
             <label asp-for="Product.ImageUrl" class="p-0"></label>
             <input type="file" name="file" class="form-control" />
