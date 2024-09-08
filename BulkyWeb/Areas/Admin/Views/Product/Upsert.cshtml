@@ -1,9 +1,10 @@
-﻿@model BulkyBook.Models.ViewModels.ProductVM
+﻿@model ProductVM
 
-<form class="p-4" action="" method="post">
+<form class="p-4" action="" method="post" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden/>
     <div class="border p-4 m-4">
         <div class="row pb-2">
-            <h2 class="textprimary">Create Product</h2>
+            <h2 class="textprimary">@(Model.Product.Id!=0?"Update":"Create") Product</h2>
             <hr/>
         </div>
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
@@ -54,11 +55,23 @@
             </select>
             <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
         </div>
+        <div class="row mb-3">
+            <label asp-for="Product.ImageUrl" class="p-0"></label>
+            <input type="file" class="form-control" />
+            <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+        </div>
 
         <div class="row">
-            <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-primary form-control">Create</button>
-            </div>
+            @if(Model.Product.Id != 0) {
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                </div>
+            }
+            else {
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                </div>
+            }
             <div class="col-6 col-md-3">
                 <a asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control">
                     Back to List
