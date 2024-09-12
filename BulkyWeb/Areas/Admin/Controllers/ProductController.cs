@@ -21,7 +21,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             //I need to learn this more
             return View(objProductList);
         }
@@ -148,5 +148,17 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
+        //----------------------------------------------------------------------------------------------------------------------------------API Calls
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAll() {
+
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new {data = objProductList});
+        }
+        
+        #endregion
+
     }
 }
