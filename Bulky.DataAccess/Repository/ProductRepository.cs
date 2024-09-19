@@ -12,7 +12,8 @@ namespace BulkyBook.DataAccess.Repository {
         private ApplicationDbContext _db;
         public ProductRepository(ApplicationDbContext db) : base (db) {
 
-            _db = db; }
+            _db = db; 
+        }
 
         public void Update(Product obj) {
             var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);

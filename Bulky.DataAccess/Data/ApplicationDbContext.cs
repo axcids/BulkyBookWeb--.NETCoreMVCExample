@@ -10,6 +10,7 @@ namespace BulkyBook.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             base.OnModelCreating(modelBuilder);
@@ -18,7 +19,55 @@ namespace BulkyBook.DataAccess.Data
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1},
                 new Category { Id = 2, Name = "Sci-Fi", DisplayOrder = 2},
                 new Category { Id = 3, Name = "Comedy", DisplayOrder = 3}
-                );
+            );
+            modelBuilder.Entity<Company>().HasData(
+
+                new Company {
+                    Id = 1,
+                    Name = "Al Saeed Trading Co.",
+                    StreetAddress = "Ans bin Malk road, Alsahafah",
+                    City = "Riyadh",
+                    State = "Riyadh",
+                    PostalCode = "15448",
+                    PhoneNumber = "0590502969",
+                },
+                new Company {
+                    Id = 2,
+                    Name = "Bin Abdulaziz Construction",
+                    StreetAddress = "King Fahd road, Al Olaya",
+                    City = "Riyadh",
+                    State = "Riyadh",
+                    PostalCode = "147826",
+                    PhoneNumber = "0591234567",
+                },
+                new Company {
+                    Id = 3,
+                    Name = "Al Jazeera Electronics",
+                    StreetAddress = "Prince Sultan road, Al Rawdah",
+                    City = "Jeddah",
+                    State = "Makkah",
+                    PostalCode = "19856",
+                    PhoneNumber = "0587654321",
+                },
+                new Company {
+                    Id = 4,
+                    Name = "Eastern Star Logistics",
+                    StreetAddress = "Khalid bin Alwaleed street, Al Khobar",
+                    City = "Dammam",
+                    State = "Eastern Province",
+                    PostalCode = "10254",
+                    PhoneNumber = "0570987654",
+                },
+                new Company {
+                    Id = 5,
+                    Name = "Riyadh Medical Supplies",
+                    StreetAddress = "Al Tahlia street, Al Sulaymaniyah",
+                    City = "Riyadh",
+                    State = "Riyadh",
+                    PostalCode = "16720",
+                    PhoneNumber = "0562345678",
+                }
+            );
             modelBuilder.Entity<Product>().HasData(
 
                 new Product {
@@ -124,10 +173,7 @@ namespace BulkyBook.DataAccess.Data
                     ImageUrl = ""
 
                 }
-
-
-
-                );
+            );
         }
     }
 }
