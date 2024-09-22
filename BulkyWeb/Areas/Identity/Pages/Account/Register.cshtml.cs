@@ -43,7 +43,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender
+            IEmailSender emailSender,
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -118,7 +118,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
             public string? PhoneNumber { get; set; }
             [Required]
             public string? Name { get; set; }
-            public int? CompanyID { get; set; }
+            public int? CompanyId { get; set; }
             public IEnumerable<SelectListItem> CompanyList { get; set; }
 
 
@@ -139,9 +139,9 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                     Text = i,
                     Value = i
                 }),
-                CompanyList = _unitOfWork.Company.GetAll.Select(i => new SelectListItem {
+                CompanyList = _unitOfWork.Company.GetAll().Select(i => new SelectListItem {
                     Text = i.Name,
-                    Value = i.Id
+                    Value = i.Id.ToString()
                 })
             };
             ReturnUrl = returnUrl;
