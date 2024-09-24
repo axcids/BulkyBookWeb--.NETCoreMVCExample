@@ -169,7 +169,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                 if (Input.Role == SD.Role_Company) {
                     user.CompanyId = Input.CompanyId;
                 }
-                
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
