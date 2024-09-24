@@ -40,7 +40,18 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             shoppingCart.ApplicationUserId = userId;
 
-            _unitOfWork.ShoppingCart.Add(shoppingCart);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u=>u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
+
+            if (cartFromDb != null) {
+                //Item exists in the cart so I need to update the count only
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else {
+                //Item does not exist in the cart so I need to add new item with new the count
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
+            TempData["Success"] = "Cart updated successfully!";
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
