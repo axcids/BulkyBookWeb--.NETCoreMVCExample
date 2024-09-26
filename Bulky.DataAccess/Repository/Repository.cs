@@ -25,7 +25,7 @@ namespace BulkyBook.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false) {
+        public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? includeProperties, bool tracked = false) {
 
             if (tracked) {
                 IQueryable<T> query = dbSet;
@@ -61,6 +61,10 @@ namespace BulkyBook.DataAccess.Repository
                 }
             }
             return query.ToList();
+        }
+
+        public IEnumerable<T> GetAll(string? includeProperties = null) {
+            throw new NotImplementedException();
         }
 
         public void Remove(T entity) {
