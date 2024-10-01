@@ -9,5 +9,7 @@ using System.Threading.Tasks;
 namespace BulkyBook.DataAccess.Repository.IRepository {
     public interface IOrderHeaderRepository : IRepository<OrderHeader> {
         void Update (OrderHeader obj);
-    }
+        void UpdateStatus (int id, string orderStatus, string? PaymentStatus = null);
+        void UpdatePaymentID(int id, string sessionId, string PaymentIntentId);
+	}
 }
