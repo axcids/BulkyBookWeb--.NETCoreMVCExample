@@ -30,6 +30,10 @@ namespace BulkyBook.DataAccess.Repository {
             OrderHeader = new OrderHeaderRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
         }
+
+        public UnitOfWork() {
+        }
+
         public void Save() {
             _db.SaveChanges();
         }
