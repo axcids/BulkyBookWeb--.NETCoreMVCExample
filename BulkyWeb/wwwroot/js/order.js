@@ -2,13 +2,30 @@
 var dataTable;
 
 $(document).ready(function () {
-    loadDataTable();
+    var url = window.location.search;
+    if (url.includes("inprocess")) {
+        loadDataTable("inprocess");
+    } else {
+        if (url.includes("completed")) {
+            loadDataTable("completed");
+        } else {
+            if (url.includes("pending")) {
+                loadDataTable("pending");
+            } else {
+                if (url.includes("approved")) {
+                    loadDataTable("approved");
+                } else {
+                    loadDataTable("all");
+                }
+            }
+        }
+    }
 });
 
-function loadDataTable() {
+function loadDataTable(status) {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            url: '/Admin/Order/GetAll'
+            url: '/Admin/Order/GetAll?status=' + status
         },
         "columns": [
             { data: 'id', "className": "text-center", "width": "5%" },
@@ -21,7 +38,7 @@ function loadDataTable() {
                 data: 'id',
                 "render": function (data) {
                     return `<div clas="w-100 btn-group" role="group">
-                <a href="/admin/Order/upsert?id=${data}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                <a href="/admin/Order/details?orderId=${data}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                 </div>`
                 },
                 "Width": "5%"
