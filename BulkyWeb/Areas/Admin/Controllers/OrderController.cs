@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers {
     [Area("Admin")]
@@ -24,7 +25,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers {
 
             return View();
         }
-        public IActionResult Details(int orderId) {
+        public IActionResult Details(int orderId) { 
+
             OrderVM = new() {
                 OrderHeader = _unitOfWork.OrderHeader.Get(u=>u.Id == orderId, includeProperties: "ApplicationUser"),
                 OrderDetail = _unitOfWork.OrderDetail.GetAll(u=>u.OrderHeaderId == orderId, includeProperties: "Product")
@@ -53,7 +55,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers {
             _unitOfWork.Save();
             TempData["Success"] = "Order details updated successfully!";
 
-            return RedirectToAction(nameof(Details), new {orderId = orderHeaderFromDb});
+            return RedirectToAction(nameof(Details), new {orderId = orderHeaderFromDb.Id});
         }
 
 
@@ -61,7 +63,17 @@ namespace BulkyBookWeb.Areas.Admin.Controllers {
 
         [HttpGet]
         public IActionResult GetAll(string status) {
-            IEnumerable<OrderHeader> objOrderHeader = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
+            IEnumerable<OrderHeader> objOrderHeader;
+
+            if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)) {
+                objOrderHeader = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
+            }
+            else {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                objOrderHeader = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser");
+            }
 
             switch (status) {
                 case "pending":
