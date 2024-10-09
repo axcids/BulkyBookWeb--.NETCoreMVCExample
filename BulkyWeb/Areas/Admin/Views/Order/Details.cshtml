@@ -237,19 +237,19 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         function validateInput() {
-            if (document.getElementById("trackingNumber").value == "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please enter tracking number!',
-                })
-                return false;
-            }
-            if(document.getElementById("carrier").value == ""){
+            if (document.getElementById("carrier") == undefined) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Please enter carrier!',
+                })
+                return false;
+            }
+            if (document.getElementById("trackingNumber") == undefined) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter tracking number!',
                 })
                 return false;
             }
