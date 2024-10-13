@@ -1,6 +1,8 @@
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -21,6 +23,13 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if(claim.Value != null) {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }
@@ -45,14 +54,17 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             if (cartFromDb != null) {
                 //Item exists in the cart so I need to update the count only
                 cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.Save();
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
             }
             else {
                 //Item does not exist in the cart so I need to add new item with new the count
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             TempData["Success"] = "Cart updated successfully!";
-            _unitOfWork.Save();
+            
 
             return RedirectToAction(nameof(Index));
         }
