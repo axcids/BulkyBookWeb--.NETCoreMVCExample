@@ -28,7 +28,7 @@ namespace BulkyBookWeb {
 				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 			});
 			builder.Services.AddDistributedMemoryCache();
-			builder.Services.AddSession(options => {
+            builder.Services.AddSession(options => {
 				options.IdleTimeout = TimeSpan.FromMinutes(100);
 				options.Cookie.HttpOnly = true ;
 				options.Cookie.IsEssential = true ;
@@ -52,10 +52,10 @@ namespace BulkyBookWeb {
 			// Correctly setting the Stripe API key
 			StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
+			app.UseSession();
 			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
-			app.UseSession();
 			app.MapRazorPages();
 			app.MapControllerRoute(
 				name: "default",
